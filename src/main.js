@@ -1,5 +1,6 @@
 import { fetchImages } from './js/pixabay-api.js';
-
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 
 const inputUserData = document.querySelector(".search-images");
 const btn = document.querySelector(".start");

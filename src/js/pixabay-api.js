@@ -1,5 +1,7 @@
 import axios from "axios";
-import { renderGallery } from './render-function.js'; // Добавляем импорт
+import { renderGallery } from './render-function.js';
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
 
 
 
@@ -14,7 +16,22 @@ export function fetchImages(query) {
         }
     })
         .then(response => {
+            if (response.data.hits.length === 0) {
+                iziToast.error({
+                    title: "Error",
+                    message: "No images found for your search.",
+                    position: "topRight",
+                });
+                return;
+            }
             renderGallery(response.data.hits);
         })
-        .catch(error => console.log(error));
+        .catch(error => {
+            iziToast.error({
+                title: "Error",
+                message: "Failed to fetch images. Try again later!",
+                position: "topRight",
+            });
+            console.error(error);
+        });
 }
