@@ -20,7 +20,7 @@ export function renderGallery(images) {
         img.alt = image.tags;
 
         const info = document.createElement("p");
-        info.innerHTML = `Likes: ${image.likes}, Views: ${image.views}`;
+        info.innerHTML = `Likes: ${image.likes}, Views: ${image.views}, Downloads ${image.downloads}`;
 
         link.append(img);
         container.append(link, info);
