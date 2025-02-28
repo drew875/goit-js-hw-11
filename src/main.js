@@ -3,9 +3,12 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 
 const inputUserData = document.querySelector(".search-images");
-const btn = document.querySelector(".start");
+const form = document.querySelector(".search-form");
+const gallery = document.querySelector(".gallery");
 
-btn.addEventListener("click", () => {
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+
     const query = inputUserData.value.trim();
     if (!query) {
         iziToast.error({
@@ -15,5 +18,7 @@ btn.addEventListener("click", () => {
         });
         return;
     }
+    gallery.innerHTML = "";
+    inputUserData.value = "";
     fetchImages(query);
 });
