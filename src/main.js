@@ -5,6 +5,7 @@ import "izitoast/dist/css/iziToast.min.css";
 const inputUserData = document.querySelector(".search-images");
 const form = document.querySelector(".search-form");
 const gallery = document.querySelector(".gallery");
+const gif = document.querySelector(".loader")
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -18,7 +19,23 @@ form.addEventListener("submit", (e) => {
         });
         return;
     }
+    gif.style.display = "inline-block";
+
     gallery.innerHTML = "";
     inputUserData.value = "";
-    fetchImages(query);
+
+
+    try {
+        fetchImages(query);
+    } catch (error) {
+        console.error("Error fetching images:", error);
+        iziToast.error({
+            title: "Error",
+            message: "Something went wrong!",
+            position: "topRight",
+        });
+    } finally {
+
+        gif.style.display = "none";
+    }
 });
