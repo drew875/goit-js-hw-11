@@ -7,7 +7,15 @@ const form = document.querySelector(".search-form");
 const gallery = document.querySelector(".gallery");
 const gif = document.querySelector(".loader")
 
-form.addEventListener("submit", (e) => {
+form.style.width = "300px";
+form.style.margin = "0 auto";
+gallery.style.display = "flex";
+gallery.style.flexWrap = "wrap";
+gallery.style.margin = "0 auto";
+gallery.style.justifyContent = "center";
+gallery.style.width = "100%";
+
+form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const query = inputUserData.value.trim();
@@ -26,7 +34,7 @@ form.addEventListener("submit", (e) => {
 
 
     try {
-        fetchImages(query);
+        await fetchImages(query);
     } catch (error) {
         console.error("Error fetching images:", error);
         iziToast.error({
