@@ -31,6 +31,9 @@ export function renderGallery(images) {
         </div>
     `).join("");
 
+
+    searchImages(response.data)
+    return;
     // Обновляем SimpleLightbox после вставки новой разметки
     const lightbox = new SimpleLightbox(".gallery a", {
         captionsData: "alt",
