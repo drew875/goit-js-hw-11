@@ -1,35 +1,42 @@
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
-const lightbox = new SimpleLightbox(".gallery a", {
-    captionsData: "alt",
-    captionDelay: 250
-});
+import { searchImages } from './js/pixabay-api.js';
+import iziToast from "izitoast";
+import "izitoast/dist/css/iziToast.min.css";
+
+
+const form = document.querySelector("form");
+const gallery = document.querySelector(".gallery");
+form.style.width = "300px";
+form.style.margin = "0 auto";
+gallery.style.display = "flex";
+gallery.style.flexWrap = "wrap";
+gallery.style.margin = "0 auto";
+gallery.style.justifyContent = "center";
+
 
 
 export function renderGallery(images) {
     const gallery = document.querySelector(".gallery");
-    gallery.innerHTML = "";
 
-    images.forEach(image => {
-        const container = document.createElement("div");
-        container.classList.add("image-container");
+    if (!gallery) {
+        console.error("Галерея не найдена");
+        return;
+    }
 
-        const link = document.createElement('a');
-        link.href = image.largeImageURL;
-        link.setAttribute("data-lightbox", "gallery");
+    gallery.innerHTML = images.map(image => `
+        <div class="image-container">
+            <a href="${image.largeImageURL}" data-lightbox="gallery">
+                <img src="${image.webformatURL}" alt="${image.tags}">
+            </a>
+            <p>❤️ ${image.likes} | 👁 ${image.views} | ⬇️ ${image.downloads}</p>
+        </div>
+    `).join("");
 
-        const img = document.createElement("img");
-        img.src = image.webformatURL;
-        img.alt = image.tags;
-
-        const info = document.createElement("p");
-        info.innerHTML = `Likes: ${image.likes}, Views: ${image.views}, Downloads ${image.downloads}`;
-
-        link.append(img);
-        container.append(link, info);
-        gallery.append(container);
+    // Обновляем SimpleLightbox после вставки новой разметки
+    const lightbox = new SimpleLightbox(".gallery a", {
+        captionsData: "alt",
+        captionDelay: 250,
     });
-
-
     lightbox.refresh();
+
 }
+
