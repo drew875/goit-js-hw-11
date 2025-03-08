@@ -1,45 +1,27 @@
-import { searchImages } from './js/pixabay-api.js';
-import iziToast from "izitoast";
-import "izitoast/dist/css/iziToast.min.css";
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
-
-const form = document.querySelector("form");
-const gallery = document.querySelector(".gallery");
-form.style.width = "300px";
-form.style.margin = "0 auto";
-gallery.style.display = "flex";
-gallery.style.flexWrap = "wrap";
-gallery.style.margin = "0 auto";
-gallery.style.justifyContent = "center";
+export function renderImages(images) {
+    const galleryContainer = document.querySelector(".gallery");
+    galleryContainer.style.display = "flex";
+    galleryContainer.style.flexWrap = "wrap";
+    galleryContainer.style.justifyContent = "center";
+    galleryContainer.style.margin = "0 auto";
+    galleryContainer.style.gap = "15px";
 
 
 
-export function renderGallery(images) {
-    const gallery = document.querySelector(".gallery");
 
-    if (!gallery) {
-        console.error("Галерея не найдена");
-        return;
-    }
-
-    gallery.innerHTML = images.map(image => `
-        <div class="image-container">
-            <a href="${image.largeImageURL}" data-lightbox="gallery">
-                <img src="${image.webformatURL}" alt="${image.tags}">
-            </a>
-            <p>❤️ ${image.likes} | 👁 ${image.views} | ⬇️ ${image.downloads}</p>
-        </div>
-    `).join("");
-
-
-    searchImages(response.data)
-    return;
-    // Обновляем SimpleLightbox после вставки новой разметки
-    const lightbox = new SimpleLightbox(".gallery a", {
-        captionsData: "alt",
-        captionDelay: 250,
-    });
+    const markup = images.map((img) =>
+        `<div class="gallery-item">
+            <a href ="${img.largeImageURL}"data-lightbox="gallery">
+                    <img src="${img.webformatURL}" alt="${img.tags}">
+                    </a>
+                    <p>Likes: ${img.likes},Views:${img.views},Comments:${img.comments},Downloads:${img.downloads}</p>
+                </div>`
+    )
+        .join("");
+    galleryContainer.innerHTML = markup;
+    let lightbox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: 250 });
     lightbox.refresh();
-
 }
-
